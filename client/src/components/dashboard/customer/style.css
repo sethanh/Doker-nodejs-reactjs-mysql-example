@@ -1,0 +1,227 @@
+.customcontainer{ 
+    width: '100%';
+}
+.bgHeader {
+    background-color: var(--main-bg);
+    width: '100%';
+    margin-bottom: 16px;
+}
+.itemHeader{
+    flex: 1;
+    padding-left: 16px;
+    position: relative;
+}
+.bg_logo_header{
+    flex: 1;
+    display: flex;
+    align-self: center;
+}
+.bg_search{
+    flex: 6;
+}
+.header_search{
+    background-color: var(--bg-white);
+    height: 40px;
+    width: '100%';
+    margin-bottom: 8px;
+    border-radius: 2px;
+    flex-direction: row;
+    display: flex;
+}
+.header_top{
+    height: 40px;
+    width: '100%';
+    margin-bottom: 16px;
+    flex-direction: row;
+    display: flex;
+    padding: 5px;
+    font-size: 10px;
+    color: var(--main-txt-bt);
+    justify-content: flex-end;
+    cursor: pointer;
+}
+.txt_auth{
+    align-self: right;
+    margin-left:5px;
+    cursor: pointer;
+}
+.txt_auth_bold{
+    margin-left:5px;
+    font-size: 12px;
+}
+.txt_shopping{
+    align-self: end;
+    margin-left:5px;
+    cursor: pointer;
+}
+.input_header{
+    border: none;
+    height: 40px;
+    flex: 5;
+    border-radius: 2px;
+    padding-left: 16px;
+    font-family: Hel;
+}
+.input_header:focus{
+    outline: none;
+}
+.btn_search_head{
+    background-color: var(--main-bg-primary);
+    border-top-right-radius: 2px;
+    border-bottom-right-radius: 2px;
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    color: var(--main-txt-bt);
+}
+.btn_search_head:hover{
+    opacity: 0.9;
+    cursor: pointer;
+}
+.header{
+    display: flex;
+    flex-direction: row;
+    font-family: Hel;
+    padding: 16px 0 8px 0;
+}
+.txt_search{
+    font-size: 13px;
+    margin:5px;
+}
+.bg_list_header{
+    display: flex;
+    flex-direction: row;
+    color: var(--main-txt-bt);
+    align-items: center;
+}
+.txtheaders{
+    padding-right: 12px;
+    font-size: 12px;
+    cursor: pointer;
+}
+.txt_connect{
+    font-size: 11px;
+    margin-left: 5px;
+    cursor: pointer;
+}
+.bg_connect{
+    background-color:lightskyblue;
+    display: flex;
+    flex-direction: row;
+    padding: 4px 16px;
+    border-radius: 8px;
+    cursor: pointer;
+}
+.bg_account{
+    position: absolute;
+    left: -25px;
+    width: 200px;
+    padding: 8px 0px;
+    background-color: var(--bg-white);
+    display: flex;
+    flex-direction: column;
+    z-index: 10;
+}
+.bg_item_account{
+    padding: 8px 16px;
+    width: '100%';
+    cursor: pointer;
+}
+.bg_item_account:hover{
+    background-color: var(--bg-gray);
+}
+.wr_connect{
+    justify-content:flex-end;
+}
+.bg_item_account_link:hover{
+    background-color: var(--bg-gray);
+    color: var(--main-txt);
+}
+.bg_item_account_link{
+    width: 200px;
+    background-color: var(--bg-white);
+    text-decoration: 'none';
+    padding: 8px 16px;
+    cursor: pointer;
+    color: var(--main-txt);
+
+}
+.img_logo{
+    height: 80px;
+}
+
+
+@media screen and (min-width: 1200px) {
+    .grid_big_pc {
+        width:1200px;
+        margin: 0 auto;
+    }
+}
+@media screen and (min-width: 944px) and (max-width: 1200px) {
+    .grid_small_pc {
+        width:960px;
+        margin: 0 auto;
+    }
+    .txt_connect{
+        display: none;
+    }
+}
+@media screen and (min-width: 860px) and (max-width: 944px) {
+    .grid_small_pc {
+        width:860px;
+        margin: 0 auto;
+    }
+    .txt_connect{
+        display: none;
+    }
+    .bg_search{
+        padding: 0 8px;
+    }
+}
+@media screen and (min-width: 600px) and (max-width: 860px){
+    .grid_small_pc {
+        width:'100%';
+        margin: 0 auto;
+    }
+    .txt_search{
+        display: none;
+    }
+    .txt_connect{
+        display: none;
+    }
+    .bg_search{
+        padding: 0 8px;
+    }
+}
+@media screen and (max-width: 600px) {
+    .itemHeader{
+        display: none;
+
+    }
+    .bg_logo_header{
+        display: none;
+    }
+    .txt_search{
+        display: none;
+    }
+    .bg_search{
+        padding: 8px;
+    }
+    .bg_list_header{
+        display: none;
+    }
+    .txt_connect{
+        display: none;
+    }
+    .bg_account_head{
+        display: none;
+    }
+    .txt_shopping{
+        display: none;
+    }
+    .bg_search{
+        padding: 0 8px;
+    }
+}
