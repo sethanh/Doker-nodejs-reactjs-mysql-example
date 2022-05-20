@@ -23,13 +23,13 @@ import {
 } from '../actions/loginActions';
 import { showLoading, hideLoading } from '../actions/uiActions';
 import { getWeatherSuccess, getWeatherFail } from '../actions/weatherActions';
-import {fetchGetProfileSuccess,fetchGetProfileFail} from '../actions/profileActions';
-import {fetchGetProductSuccess,fetchGetProductFail,fetchUpdateProductSuccess,fetchUpdateProductFail} from '../actions/ProductActions';
+import { fetchGetProfileSuccess, fetchGetProfileFail, fetchUpdateUserSuccess, fetchUpdateUserFail } from '../actions/profileActions';
+import { fetchGetProductSuccess, fetchGetProductFail, fetchUpdateProductSuccess, fetchUpdateProductFail } from '../actions/ProductActions';
 
-import { login, loginToken,register, loginFacebook } from '../apis/authApis';
-import {getUser} from '../apis/profileApis';
+import { login, loginToken, register, loginFacebook } from '../apis/authApis';
+import { getUser, updateUser, uploadAvatar } from '../apis/profileApis';
 import { getWeather } from '../apis/weatherApis'
-import {getProduct,update} from '../apis/productApis';
+import { getProduct, update,updateImage } from '../apis/productApis';
 
 import { STATUS_CODE } from './../constants/index';
 import * as WeatherTypes from './../constants/WeatherTypes';
@@ -147,14 +147,53 @@ function* watchGetProduct() {
   yield delay(1000);
   yield put(hideLoading());
 }
-function* watchUpdateProduct({payload}) {
+function* watchUpdateProduct({ payload }) {
   yield put(showLoading());
-  const resp = yield call(update,payload);
-  const { status, data } = resp;
+  const { formData, ...datasProduct } = payload;
+  const resp01 = yield call(update, datasProduct);
+  const { status, data } = resp01;
   if (status === STATUS_CODE.SUCCESS) {
-    yield put(fetchUpdateProductSuccess(data));
+    if (formData) {
+      const resp = yield call(updateImage,payload);
+      const { status, data } = resp;
+      if (status === STATUS_CODE.SUCCESS) {
+        yield put(fetchUpdateProductSuccess(data));
+      }
+      else {
+        yield put(fetchUpdateProductFail(resp));
+      }
+    }
+    else {
+      yield put(fetchUpdateProductSuccess(data));
+    }
   } else {
     yield put(fetchUpdateProductFail(resp));
+  }
+  yield delay(1000);
+  yield put(hideLoading());
+}
+
+function* watchUpdateUser({ payload }) {
+  yield put(showLoading());
+  const { formData, ...datasUser } = payload;
+  const resp01 = yield call(updateUser, datasUser);
+  const { status, data } = resp01;
+  if (status === STATUS_CODE.SUCCESS) {
+    if (formData) {
+      const resp = yield call(uploadAvatar, formData);
+      const { status, data } = resp;
+      if (status === STATUS_CODE.SUCCESS) {
+        yield put(fetchUpdateUserSuccess(data));
+      }
+      else {
+        yield put(fetchUpdateUserFail(resp));
+      }
+    }
+    else {
+      yield put(fetchUpdateUserSuccess(data));
+    }
+  } else {
+    yield put(fetchUpdateUserFail(resp01));
   }
   yield delay(1000);
   yield put(hideLoading());
@@ -166,12 +205,13 @@ function* rootSaga() {
     yield takeLatest(Types.LOGIN, watchLogin),
     yield takeLatest(Types.LOGIN_FACEBOOK, watchLoginFacebook),
     yield takeLatest(Types.LOGOUT, watchLogout),
-  
+
     yield takeLatest(ProfileTypes.GET_PROFILE, watchGetProfile),
-  
+    yield takeLatest(ProfileTypes.UPDATE_USER, watchUpdateUser),
+
     yield takeLatest(ProductTypes.GET_PRODUCT, watchGetProduct),
     yield takeLatest(ProductTypes.UPDATE_PRODUCT, watchUpdateProduct),
-  
+
     yield takeLatest(Types.REGISTER, watchRegister),
     yield takeLatest(Types.LOGIN_FILTER, watchFilterLogin),
     yield takeLatest(WeatherTypes.GET_FETCH_WEATHER_BY_CITY, watchGetWeather),

@@ -95,3 +95,13 @@ CREATE TABLE `invoices_detail` (
   FOREIGN KEY (`id_product`) REFERENCES products(`id`),
   primary key (`id_invoice`,`id_product`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+CREATE TABLE `cart_detail` (
+  `id_customer` int(11) NOT NULL,
+  `id_product` int(11) NOT NULL,
+  `quantify` int(5) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  FOREIGN KEY (`id_customer`) REFERENCES customers(`id`),
+  FOREIGN KEY (`id_product`) REFERENCES products(`id`),
+  primary key (`id_customer`,`id_product`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

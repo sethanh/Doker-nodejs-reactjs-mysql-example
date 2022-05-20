@@ -89,7 +89,8 @@ let tokenLogin = async (req, res, next) => {
 };
 
 let updateAvatar = async (req, res, next) => {
-  const { file, user } = req
+  const { file, user } = req;
+  const { rule, id } = user;
   if (!file) {
     return res.status(500).send({
       status: 500,
@@ -104,11 +105,26 @@ let updateAvatar = async (req, res, next) => {
       image
     })
       .then(() => {
-        return res.status(200).send({
-          status: 200,
-          message: 'Upload file Success',
-          error: false,
-        });
+        if (rule === 'customer') {
+          model.customer.findOne({
+            where: {
+              id_user: id
+            },
+            include: [
+              { model: model.user, require: 'true' }
+            ]
+          }).then((post) => {
+            return res.status(200).send({
+              data: post,
+              status: 200,
+              message: 'success',
+              error: false
+            });
+          })
+        }
+        else {
+          //staff
+        }
       })
       .catch((error) => {
         return res.status(400).send({
@@ -197,7 +213,6 @@ let getUser = async (req, res, next) => {
           { model: model.user, require: 'true' }
         ]
       }).then((post) => {
-        console.log('ss', post);
         return res.status(200).send({
           data: post,
           status: 200,
@@ -217,5 +232,43 @@ let getUser = async (req, res, next) => {
     })
   }
 };
+let update = async (req, res, next) => {
+  const { user } = req;
+  const { rule, id } = user;
+  user.update({
+    ...user,
+    ...req.body
+  })
+    .then(() => {
+      if (rule === 'customer') {
+        model.customer.findOne({
+          where: {
+            id_user: id
+          },
+          include: [
+            { model: model.user, require: 'true' }
+          ]
+        }).then((post) => {
+          return res.status(200).send({
+            data: post,
+            status: 200,
+            message: 'success',
+            error: false
+          });
+        })
+      }
+      else {
+        //staff
+      }
+    })
+    .catch((error) => {
+      return res.status(400).send({
+        status: 400,
+        message: 'không thể update user',
+        error: true
+      });
+    });
+}
 
-module.exports = { signUp, logIn, tokenLogin, updateAvatar, upload, facebookLogin, getUser };
+
+module.exports = { signUp, logIn, tokenLogin, updateAvatar, upload, facebookLogin, getUser, update };

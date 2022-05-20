@@ -12,7 +12,7 @@ class CustomerLayout extends Component {
         render={routeProps => {
           return (
             <CustomerDashBoard {...data}>
-              <YourComponent {...routeProps} />
+              <YourComponent {...routeProps}/>
             </CustomerDashBoard>
           );
         }}

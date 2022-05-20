@@ -19,7 +19,11 @@ const myreducer = (state = initialState, action) => {
     case Types.GET_PROFILE:
       return { ...state, get: false };
     case Types.GET_PROFILE_SUCCESS:
-      return { ...state, data: action.payload};
+      return { ...state, data: action.payload };
+    case Types.UPDATE_USER:
+      return { ...state, get: false };
+    case Types.UPDATE_USER_SUCCESS:
+      return { ...state, data: action.payload };
     default:
       return state;
   }

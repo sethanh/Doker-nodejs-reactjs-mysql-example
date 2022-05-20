@@ -18,3 +18,23 @@ export const fetchGetProfileFail = error => {
     payload: error,
   };
 };
+
+export const fetchUpdateUser = payload => {
+  return {
+    type: Types.UPDATE_USER,
+    payload
+  };
+};
+
+export const fetchUpdateUserSuccess = data => {
+  return {
+    type: Types.UPDATE_USER_SUCCESS,
+    payload: data.data,
+  };
+};
+export const fetchUpdateUserFail = error => {
+  return {
+    type: Types.UPDATE_USER_FAIL,
+    payload: error,
+  };
+};

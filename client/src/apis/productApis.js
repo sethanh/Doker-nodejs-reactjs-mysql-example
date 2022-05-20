@@ -9,4 +9,7 @@ export const createProduct = body => {
 export const update = (body) => {
   return axiosService.put(`${DOCKER_URL}/products/${body.id}`, body);
 };
+export const updateImage = (body) => {
+  return axiosService.put(`${DOCKER_URL}/products/image/${body.id}`, body.formData);
+};
 

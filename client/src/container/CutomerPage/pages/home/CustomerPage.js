@@ -86,8 +86,9 @@ class CustomerPage extends Component {
   onCalApi = () => {
     console.log('day');
     const body = {
-      name: 'trà sửa',
-      price: 30000
+      name: 'coffee đen đá',
+      price: 14000,
+      image: 'http://127.0.0.1:3001/coffeeden.jpeg'
     }
     createProduct(body);
   }
@@ -95,14 +96,14 @@ class CustomerPage extends Component {
     console.log('day');
     const body = {
       name: 'trà đào',
-      price: 20000
+      price: 18000
     }
     createProduct(body);
   }
   renderCard = (item, index) => (
-    <div className="col-xs-12 col-sm-6 col-md-3 col-lg-2">
+    <div className="col-xs-12 col-sm-6 col-md-3 col-lg-2" key={index}>
       <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12 product_card">
-        <img src={item.image || PNG.product_default} style={{ width: 100, height: 100 }}></img>
+        <img src={item.image || PNG.product_default} className="img_product"></img>
         <div className='row bg_product'>
           <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12 txt_product_name">
             {item.name}
@@ -112,7 +113,7 @@ class CustomerPage extends Component {
           </div>
         </div>
 
-        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style={{ justifyContent: 'right', display: 'flex' }}>
+        <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12" style={{ justifyContent: 'right', display: 'flex' }}>
           <div className='icon_product bg_two'>
             <div className='fa fa-shopping-cart '></div>
           </div>
@@ -128,15 +129,6 @@ class CustomerPage extends Component {
     return (
       <div >
         <div className="container">
-          {inventory.map((item, index) => (
-            this.renderCard(item, index)
-          ))}
-          {inventory.map((item, index) => (
-            this.renderCard(item, index)
-          ))}
-          {inventory.map((item, index) => (
-            this.renderCard(item, index)
-          ))}
           {inventory.map((item, index) => (
             this.renderCard(item, index)
           ))}
