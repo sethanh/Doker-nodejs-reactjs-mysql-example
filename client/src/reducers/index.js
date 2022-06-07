@@ -5,6 +5,7 @@ import modal from './modal';
 import weather from './weather';
 import profile from './profile';
 import product from './product';
+import cart from './cart';
 
 const appReducers = combineReducers({
   login,
@@ -12,6 +13,7 @@ const appReducers = combineReducers({
   modal,
   weather,
   profile,
-  product
+  product,
+  cart
 });
 export default appReducers;

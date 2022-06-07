@@ -1,4 +1,4 @@
-import {CustomerPage,ProfilePage } from './../index'; 
+import {CustomerPage,ProfilePage, CartPage } from './../index'; 
 
 export const CUSTOMER_ROUTES = [
     {
@@ -12,5 +12,11 @@ export const CUSTOMER_ROUTES = [
       name: 'Customer Profile',
       exact: true,
       component: ProfilePage,
+    },
+    {
+      path: '/cart',
+      name: 'Cart',
+      exact: true,
+      component: CartPage,
     }
 ];

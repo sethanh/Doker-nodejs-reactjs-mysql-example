@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { bindActionCreators, compose } from 'redux';
 import * as weatherActions from './../../../../actions/weatherActions';
 import * as productActions from './../../../../actions/ProductActions';
+import * as LoginActions from './../../../../actions/uiActions';
+import * as CartActions from './../../../../actions/CartActions';
 import { connect } from 'react-redux';
 import { register, uploadAvatar } from '../../../../apis/authApis';
 import { createProduct } from '../../../../apis/productApis';
@@ -100,6 +102,18 @@ class CustomerPage extends Component {
     }
     createProduct(body);
   }
+  onCart=(item) => {
+    const {checkUser, LoginAction, CartAction} = this.props;
+    const {name}= checkUser;
+    const {showLogin}= LoginAction;
+    const {fetchCreateCart }= CartAction;
+    if(name){
+      fetchCreateCart({id_product:item.id,quantify:1});
+    }
+    else{
+      showLogin();
+    }
+  }
   renderCard = (item, index) => (
     <div className="col-xs-12 col-sm-6 col-md-3 col-lg-2" key={index}>
       <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12 product_card">
@@ -114,7 +128,7 @@ class CustomerPage extends Component {
         </div>
 
         <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12" style={{ justifyContent: 'right', display: 'flex' }}>
-          <div className='icon_product bg_two'>
+          <div className='icon_product bg_two' onClick={()=>this.onCart(item)}>
             <div className='fa fa-shopping-cart '></div>
           </div>
           <div className='icon_product bg_four'>
@@ -163,14 +177,17 @@ class CustomerPage extends Component {
   }
 }
 const mapStateToProps = state => {
-  const { weather, product } = state;
+  const { weather, product, login } = state;
   const { get, data } = product;
-  return { weather, get, inventory: data };
+  const {data:checkUser}=login;
+  return { weather, get, inventory: data,checkUser };
 };
 const mapDispatchToProps = dispatch => {
   return {
     weatherAction: bindActionCreators(weatherActions, dispatch),
     productAction: bindActionCreators(productActions, dispatch),
+    LoginAction: bindActionCreators(LoginActions, dispatch),
+    CartAction: bindActionCreators(CartActions, dispatch),
   };
 };
 const withConnect = connect(mapStateToProps, mapDispatchToProps);

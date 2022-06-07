@@ -11,6 +11,7 @@ import {
 import * as Types from './../constants/ActionTypes';
 import * as ProfileTypes from '../constants/ProfileTypes';
 import * as ProductTypes from '../constants/ProductTypes';
+import * as CartTypes from '../constants/CartTypes';
 
 import {
   fetchLoginSuccess,
@@ -25,11 +26,13 @@ import { showLoading, hideLoading } from '../actions/uiActions';
 import { getWeatherSuccess, getWeatherFail } from '../actions/weatherActions';
 import { fetchGetProfileSuccess, fetchGetProfileFail, fetchUpdateUserSuccess, fetchUpdateUserFail } from '../actions/profileActions';
 import { fetchGetProductSuccess, fetchGetProductFail, fetchUpdateProductSuccess, fetchUpdateProductFail } from '../actions/ProductActions';
+import { fetchGetCartSuccess, fetchGetCartFail, fetchGetCart, fetchUpdateCartSuccess, fetchCreateCartFail, fetchCreateCartSuccess } from '../actions/CartActions';
 
 import { login, loginToken, register, loginFacebook } from '../apis/authApis';
 import { getUser, updateUser, uploadAvatar } from '../apis/profileApis';
 import { getWeather } from '../apis/weatherApis'
-import { getProduct, update,updateImage } from '../apis/productApis';
+import { getProduct, update, updateImage } from '../apis/productApis';
+import { getCart, createCart } from '../apis/cartApis';
 
 import { STATUS_CODE } from './../constants/index';
 import * as WeatherTypes from './../constants/WeatherTypes';
@@ -42,7 +45,11 @@ function* watchFetchLoginAction() {
     if (status === STATUS_CODE.SUCCESS) {
       const { token } = data;
       localStorage.setItem('_token', token);
+      console.log(data);
       yield put(authSuccess(data));
+      if (data.data.rule === 'customer') {
+        yield put(fetchGetCart());
+      }
     } else {
       yield put(authFail(data));
     }
@@ -57,6 +64,9 @@ function* watchLogin({ payload }) {
     const { token } = data;
     localStorage.setItem('_token', token);
     yield put(fetchRegisterSuccess(data));
+    if (data.data.rule === 'customer') {
+      yield put(fetchGetCart());
+    }
   } else {
     yield put(fetchLoginFail(resp));
   }
@@ -72,6 +82,8 @@ function* watchLoginFacebook({ payload }) {
     const { token } = data;
     localStorage.setItem('_token', token);
     yield put(fetchLoginSuccess(data));
+    yield put(fetchGetCart());
+
   } else {
     yield put(fetchLoginFail(resp));
   }
@@ -87,6 +99,9 @@ function* watchRegister({ payload }) {
     const { token } = data;
     localStorage.setItem('_token', token);
     yield put(fetchLoginSuccess(data));
+    if (data.data.rule === 'customer') {
+      yield put(fetchGetCart());
+    }
   } else {
     yield put(fetchRegisterFail(resp));
   }
@@ -154,7 +169,7 @@ function* watchUpdateProduct({ payload }) {
   const { status, data } = resp01;
   if (status === STATUS_CODE.SUCCESS) {
     if (formData) {
-      const resp = yield call(updateImage,payload);
+      const resp = yield call(updateImage, payload);
       const { status, data } = resp;
       if (status === STATUS_CODE.SUCCESS) {
         yield put(fetchUpdateProductSuccess(data));
@@ -199,6 +214,32 @@ function* watchUpdateUser({ payload }) {
   yield put(hideLoading());
 }
 
+function* watchGetCart() {
+  yield put(showLoading());
+  const resp = yield call(getCart);
+  const { status, data } = resp;
+  if (status === STATUS_CODE.SUCCESS) {
+    yield put(fetchGetCartSuccess(data));
+  } else {
+    yield put(fetchGetCartFail(resp));
+  }
+  yield delay(1000);
+  yield put(hideLoading());
+}
+
+function* watchCreateCart({ payload }) {
+  yield put(showLoading());
+  const resp = yield call(createCart, payload);
+  const { status, data } = resp;
+  if (status === STATUS_CODE.SUCCESS) {
+    yield put(fetchCreateCartSuccess(data));
+  } else {
+    yield put(fetchCreateCartFail(resp));
+  }
+  yield delay(1000);
+  yield put(hideLoading());
+}
+
 function* rootSaga() {
   yield all([
     yield fork(watchFetchLoginAction),
@@ -211,6 +252,9 @@ function* rootSaga() {
 
     yield takeLatest(ProductTypes.GET_PRODUCT, watchGetProduct),
     yield takeLatest(ProductTypes.UPDATE_PRODUCT, watchUpdateProduct),
+
+    yield takeLatest(CartTypes.GET_CART, watchGetCart),
+    yield takeLatest(CartTypes.CREATE_CART, watchCreateCart),
 
     yield takeLatest(Types.REGISTER, watchRegister),
     yield takeLatest(Types.LOGIN_FILTER, watchFilterLogin),

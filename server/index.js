@@ -33,7 +33,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use("/", require("./routes/userRoutes"));
 app.use("/products", require("./routes/productRoute"));
 app.use("/invoices", require("./routes/InvoicesRoute"));
-app.get("/image", require("./routes/InvoicesRoute"));
+app.use("/carts", require("./routes/cartsRoute"));
+// app.get("/image", require("./routes/InvoicesRoute"));
 
 // app.use("/books", require("./routes/bookRoutes"));
 // app.use("/study", require("./routes/studyRoute"));

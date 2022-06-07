@@ -108,7 +108,7 @@ class LoginPage extends Component {
   )
   renderLoginPhone = () => (
     <div className="my-phone-button-class">
-      <span class="fa-solid fa-phone"></span>
+      <span className="fa-solid fa-phone"></span>
     </div>
   )
   renderRegisterForm = () => (

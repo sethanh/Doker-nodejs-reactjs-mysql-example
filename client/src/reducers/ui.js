@@ -1,6 +1,6 @@
 import * as Types from './../constants/ui';
 
-const initialState = { showloading: false, showsidebar: true };
+const initialState = { showloading: false, showlogin: false, };
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
@@ -14,15 +14,15 @@ const reducer = (state = initialState, action) => {
         ...state,
         showloading: false,
       };
-    case Types.SHOW_SIDEBAR:
+    case Types.SHOW_LOGIN:
       return {
         ...state,
-        showsidebar: true,
+        showlogin: true,
       };
-    case Types.HIDE_SIDEBAR:
+    case Types.HIDE_LOGIN:
       return {
         ...state,
-        showsidebar: false,
+        showlogin: false,
       };
     default:
       return state;
