@@ -1,70 +1,53 @@
-const model = require('./../../models');
-var mysql = require('mysql');
-var options = require('../../config/database');
-var con = mysql.createConnection(options);
+const db = require("../../models");
+const { products } = db;
 
-let { Key } = require('./../../key/keyJWT');
-let getInvoicesRequest = async (req, res, next) => {
-  try {
-    let data = await model.invoices_rq.findAll({});
-    return res.status(200).send({
-      status: 200,
-      message: 'success',
-      data,
-      error: false
-    });
-  } catch (error) {
-    return res.status(500).send({
-      status: 500,
-      message: 'lỗi server',
-      error: true
-    });
-  }
+let getted = async (req, res, next) => {
+  const { body, user } = req;
+
 };
-let createInvoicesRequest = async (req, res, next) => {
-  const { body } = req;
-  try {
-    let data = await model.invoices_rq.create(body);
-    return res.status(201).send({
-      data,
-      status: 201,
-      message: 'created',
-      error: false
-    });
-  } catch (error) {
-    return res.status(500).send({
-      status: 500,
-      message: 'lỗi server',
-      error: true
-    });
-  }
-};
-let createInvoices = async (req, res, next) => {
-  console.log(req.body);
-  const { id_customer, id_staff, address_receive, orders } = req.body;
-  try {
-    let data = await model.invoices.create({ id_customer, id_staff, address_receive });
-    let dataOrder = JSON.parse(orders);
-    for (let i = 0; i < dataOrder.length; i++) {
-      let id_invoice = data.id;
-      let id_product = dataOrder[i].id_product;
-      let quantify = dataOrder[i].quantify;
-      let datadt= await model.invoices_dt.create({ id_invoice, id_product, quantify });
-      // let sql = `INSERT INTO invoices_detail (id_invoice, id_product, quantify) VALUES (${id_invoice},${id_product},${quantify})`;
-      // await con.query(sql);
+
+let inserted = async (req, res, next) => {
+  const { user, body } = req;
+  if (user) {
+    try {
+      const {id} = user;
+      const data = await products.create({ ...body, created_by: id });
+      return res.status(200).send({
+        status: 200,
+        message: 'Tạo thành công product',
+        error: false,
+        data
+      });
+    } catch (e) {
+      console.error(e);
+      return res.status(500).send({
+        status: 500,
+        message: 'lỗi server',
+        error: true,
+      });
     }
-    return res.status(201).send({
-      status: 201,
-      message: 'created invoices',
-      error: false
-    });
-  } catch (error) {
+
+  }
+  else {
     return res.status(500).send({
       status: 500,
-      message: 'lỗi server',
-      error: true
+      message: 'Lỗi xác thực',
+      error: true,
     });
   }
+}
+
+let updated = async (req, res, next) => {
+  const { body, user } = req;
+
 };
 
-module.exports = { getInvoicesRequest, createInvoicesRequest, createInvoices };
+let deleted = async (req, res, next) => {
+  const { body, user } = req;
+
+};
+
+
+
+
+module.exports = { getted, inserted, updated, deleted };

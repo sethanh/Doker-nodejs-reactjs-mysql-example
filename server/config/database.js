@@ -1,7 +1,7 @@
 const dtb = {
-    host: "mysql_db",
-    user: "MYSQL_USER",
-    password: "MYSQL_PASSWORD",
-    database: 'books'
+    host: process.env.host,
+    user: process.env.user,
+    password: process.env.password,
+    database: process.env.database
 }
 module.exports = dtb;

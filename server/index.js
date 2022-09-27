@@ -1,3 +1,4 @@
+require('dotenv').config();
 let express = require('express');
 let morgan = require('morgan');
 let bodyParser = require('body-parser');
@@ -5,14 +6,19 @@ let session = require('express-session');
 let MySQLStore = require('express-mysql-session')(session);
 let cors = require('cors');
 let app = express();
-let PORT = 3001;
+
+const db = require("./models");
+const {
+  userRoutes, shopRoutes, staffRoutes, unitRoutes,
+  productRoutes, invoicesRoutes, cartRoutes
+} = require('./routes');
 
 let options = {
-  host: 'mysql_db',
-  port: "3306",
-  user: 'MYSQL_USER',
-  password: 'MYSQL_PASSWORD',
-  database: 'books'
+  host: process.env.host,
+  port: process.env.port,
+  user: process.env.userroot,
+  password: process.env.passwordroot,
+  database: process.env.database
 };
 let sessionStore = new MySQLStore(options);
 
@@ -30,26 +36,25 @@ app.use(morgan("dev"))
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.use("/", require("./routes/userRoutes"));
-app.use("/products", require("./routes/productRoute"));
-app.use("/invoices", require("./routes/InvoicesRoute"));
-app.use("/carts", require("./routes/cartsRoute"));
-// app.get("/image", require("./routes/InvoicesRoute"));
+// db.sequelize.sync()
+//   .then(() => {
+//     console.log("Synced db.");
+//   })
+//   .catch((err) => {
+//     console.log("Failed to sync db: " + err.message);
+//   });
 
-// app.use("/books", require("./routes/bookRoutes"));
-// app.use("/study", require("./routes/studyRoute"));
-// app.use("/subject", require("./routes/subjectRoute"));
-// app.use("/tables", require("./routes/TableRoute"));
-// app.use("/speech", require("./routes/speechRoute"));
-// app.use("/contacts/", require("./controllers/contacts/Controllers"));
-
-// app.post("/upload", upload.single('profileImg'), (req, res) => {
-
-// });
+app.use("/users", userRoutes);
+app.use("/shops", shopRoutes);
+app.use("/staffs", staffRoutes);
+app.use("/units", unitRoutes);
+app.use("/products", productRoutes);
+app.use("/invoices", invoicesRoutes);
+app.use("/carts", cartRoutes);
 
 app.use(express.static('public'));
-app.listen(PORT, () => {
-  console.log("Server started on http://localhost:" + PORT);
+app.listen(process.env.listionport, () => {
+  console.log("Server started on http://localhost:" + process.env.listionport);
 })
 
 module.exports = app;

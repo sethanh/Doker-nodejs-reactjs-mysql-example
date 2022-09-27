@@ -10,7 +10,6 @@ import GlobalModal from './components/globalMoDal/index';
 import './index.css';
 import 'antd/dist/antd.css';
 import './assets/theme/themeColor.css';
-import '@fortawesome/fontawesome-free/css/all.min.css';
 import 'react-toastify/dist/ReactToastify.css';
 
 ReactDOM.render(

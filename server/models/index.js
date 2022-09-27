@@ -1,27 +1,35 @@
-const user=require('./userModel');
-const customer = require('./customerModel');
-const staff = require('./staffModel');
-const product= require('./productModel');
-const invoices = require('./invoicesModel');
-const invoices_rq= require('./invoicesRequestModel');
-const invoices_dt= require('./invoicesDetailModel');
-const table= require('./tableModel');
-const cart= require('./cartDetailModel');
-const model={};
 
-model.customer=customer;
-model.staff= staff;
-model.user= user;
-model.product= product;
-model.invoices= invoices;
-model.invoices_rq= invoices_rq;
-model.invoices_dt= invoices_dt;
-model.table= table;
-model.cart= cart;
-model.user.hasMany(model.customer, {foreignKey: 'id_user'});
-model.customer.belongsTo(model.user, {foreignKey: 'id_user'});
+const Sequelize = require("sequelize");
+let sequelize = require("./../config/databaseConn");
 
-model.product.hasMany(model.cart,{foreignKey:'id_product'});
-model.cart.belongsTo(model.product, {foreignKey:'id_product'});
+const users=require('./users')(sequelize, Sequelize);
+const customers = require('./customers')(sequelize, Sequelize);
+const staffs = require('./staffs')(sequelize, Sequelize);
+const products= require('./products')(sequelize, Sequelize);
+const invoices = require('./invoices')(sequelize, Sequelize);
+const invoices_reqests= require('./invoices_requests')(sequelize, Sequelize);
+const request_details = require('./request_details')(sequelize, Sequelize);
+const admins= require('./admins')(sequelize, Sequelize);
+const managers= require('./managers')(sequelize, Sequelize);
+const shops= require('./shops')(sequelize, Sequelize);
+const units= require('./unit_details')(sequelize, Sequelize);
+const cart_details= require('./cart_details')(sequelize, Sequelize);
 
-module.exports= model;
+const db = {};
+
+db.Sequelize = Sequelize;
+db.sequelize = sequelize;
+db.users = users;
+db.customers = customers;
+db.staffs = staffs;
+db.products = products;
+db.invoices = invoices;
+db.invoices_requests = invoices_reqests;
+db.admins = admins;
+db.managers = managers;
+db.shops = shops;
+db.units = units;
+db.request_details = request_details;
+db.cart_details = cart_details;
+
+module.exports = db;

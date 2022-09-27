@@ -1,0 +1,88 @@
+state:
+npm i  react-redux redux redux-saga @reduxjs/toolkit
+language:
+npm i react-i18next
+Translator.changeLanguages('vn')
+router:
+npm i react-router-dom
+Toastify:
+npm i react-toastify
+api:
+npm i axios
+form:
+npm i formik lodash yup
+
+ docker-compose exec api sh
+
+	
+sequelize-cli model:generate --name Mom --attributes firstname:string,lastName:string,married:integer
+models Child:
+  Child.belongsTo(models.Mom);
+  models.Mom.hasMany(Child);
+sequelize-cli migration:generate --name child-mom-association
+migration Child:
+   MomId: {
+        type: Sequelize.INTEGER
+   }
+migration child-mom-assoction:
+   async up (queryInterface, Sequelize) {
+    queryInterface.addConstraint('Children',{
+      fields: ['MomId'],
+      type: 'foreign key',
+      name: 'child_mom_association',
+      references:{
+        table: 'Moms',
+        field: 'id'
+      }
+    })
+  },
+
+  async down (queryInterface, Sequelize) {
+    queryInterface.removeConstraint('Children',{
+      fields: ['MomId'],
+      type: 'foreign key',
+      name: 'child_mom_association',
+      references:{
+        table: 'Moms',
+        field: 'id'
+      }
+    })
+  }
+sequelize-cli db:migrate
+
+sequelize-cli model:generate --name Users --attributes phone:string,name:string,email:string,address:string,birthday:dateonly,rule:string,password:string,image:string,status:integer
+
+sequelize-cli model:generate --name Customers --attributes point:integer,status:integer
+sequelize-cli migration:generate --name Customers-association
+
+sequelize-cli model:generate --name Managers --attributes status:integer
+sequelize-cli migration:generate --name Managers-association
+
+sequelize-cli model:generate --name Admins --attributes status:integer
+sequelize-cli migration:generate --name Admins-association
+
+sequelize-cli model:generate --name Staffs --attributes status:integer
+sequelize-cli migration:generate --name Staffs-association
+
+sequelize-cli model:generate --name Shops --attributes phone:string,name:string,email:string,birthday:dateonly,rule:string,address:string,image:string,status:integer,star:double,slogan:string
+sequelize-cli migration:generate --name Shops-association
+
+sequelize-cli model:generate --name Products --attributes name:string,unit:integer,price:double,image:string,status:integer
+sequelize-cli migration:generate --name Products-association
+
+sequelize-cli model:generate --name Cart_details --attributes quantify:integer,status:integer
+sequelize-cli migration:generate --name Cart_details-association
+
+sequelize-cli model:generate --name Invoices_requests --attributes address_receive:string,extra_data:string,status:integer
+sequelize-cli migration:generate --name Invoices_requests-association
+
+sequelize-cli model:generate --name Request_details --attributes quantify:integer,status:integer
+sequelize-cli migration:generate --name Request_details-association
+
+sequelize-cli model:generate --name Invoices --attributes address_receive:string,status:integer
+sequelize-cli migration:generate --name Invoices-association
+
+sequelize-cli model:generate --name Invoices_details --attributes quantify:integer
+sequelize-cli migration:generate --name Invoices_details-association
+sequelize-cli model:generate --name Unit_details --attributes name:string
+

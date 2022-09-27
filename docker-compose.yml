@@ -1,24 +1,24 @@
 version: '3.8'
 
 x-common-variables: &common-variables
-  MYSQL_DATABASE: books
-  MYSQL_USER: MYSQL_USER
-  MYSQL_PASSWORD: MYSQL_PASSWORD
+  MYSQL_DATABASE: 
+  MYSQL_USER: NTS0902
+  MYSQL_PASSWORD: Se2012520
 
 services:
   mysql_db:
-    image: mysql
+    image: mysql:8
     restart: always
     cap_add:
       - SYS_NICE
     command: --default-authentication-plugin=mysql_native_password --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
     volumes:
-      - ./setup.sql:/docker-entrypoint-initdb.d/setup.sql 
+      - ./server/sql:/var/lib/mysql
     ports:
       - "9906:3306"
     environment:
       <<: *common-variables
-      MYSQL_ROOT_PASSWORD: MYSQL_ROOT_PASSWORD
+      MYSQL_ROOT_PASSWORD: Se2012618
       MYSQL_HOST: localhost
 
   nginx:
@@ -51,7 +51,7 @@ services:
     environment:
       - CHOKIDAR_USEPOLLING=true
     build:
-      dockerfile: Dockerfile.dev
+      dockerfile: Dockerfile
       context: ./client
     volumes:
       - /app/node_modules

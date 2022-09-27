@@ -1,8 +1,8 @@
 let Sequelize = require("sequelize");
 
-let sequelize = new Sequelize("books", "MYSQL_USER", "MYSQL_PASSWORD", {
-  host: "mysql_db",
-  dialect: "mysql"
+let sequelize = new Sequelize(process.env.database, process.env.userroot, process.env.passwordroot, {
+  host: process.env.host,
+  dialect: process.env.dialect,
 });
 
 module.exports = sequelize;
