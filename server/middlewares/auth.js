@@ -8,11 +8,17 @@ let accountAuth = async (req, res, next) => {
     const { type } = body;
     let user = {};
     user[type] = body[type]
-    let data = await users.findOne({ where: { ...user } });
-    if (data) {
-        req.user = data;
+    try {
+        let data = await users.findOne({ where: { ...user } });
+        if (data) {
+            req.user = data;
+        }
+        next();
     }
-    next();
+    catch (err) {
+        next();
+    }
+
 }
 
 let tokenAuth = async (req, res, next) => {
@@ -25,11 +31,11 @@ let tokenAuth = async (req, res, next) => {
             token,
             Key,
             {
-              ignoreExpiration: true,
+                ignoreExpiration: true,
             }
-          );
-          let {id}=data
-          let user = await users.findOne({where: {id}});
+        );
+        let { id } = data
+        let user = await users.findOne({ where: { id } });
         if (user) {
             req.user = user;
             next();

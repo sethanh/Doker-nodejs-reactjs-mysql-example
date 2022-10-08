@@ -10,7 +10,7 @@ let app = express();
 const db = require("./models");
 const {
   userRoutes, shopRoutes, staffRoutes, unitRoutes,
-  productRoutes, invoicesRoutes, cartRoutes
+  productRoutes, invoicesRoutes, cartRoutes, uploadRoutes,
 } = require('./routes');
 
 let options = {
@@ -51,6 +51,8 @@ app.use("/units", unitRoutes);
 app.use("/products", productRoutes);
 app.use("/invoices", invoicesRoutes);
 app.use("/carts", cartRoutes);
+app.use("/uploads", uploadRoutes);
+
 
 app.use(express.static('public'));
 app.listen(process.env.listionport, () => {

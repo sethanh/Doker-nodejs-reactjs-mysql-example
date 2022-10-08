@@ -1,12 +1,12 @@
 let express = require("express");
 let router = new express.Router();
 let { userController } = require('../controllers');
-const { signIn, signUp }= userController;
+const { signIn, signUp, index }= userController;
 let {Auth} = require('../middlewares');
-const {accountAuth}= Auth
+const {accountAuth,tokenAuth}= Auth
 
 
-// router.get("",);
+router.get("",tokenAuth,index);
 // router.get("/:id",);
 router.post("",signUp);
 router.post("/signIn",accountAuth,signIn);
