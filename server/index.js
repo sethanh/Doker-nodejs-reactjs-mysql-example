@@ -53,6 +53,9 @@ app.use("/invoices", invoicesRoutes);
 app.use("/carts", cartRoutes);
 app.use("/uploads", uploadRoutes);
 
+app.use("/study", require("./routes/studyRoute"));
+app.use("/subject", require("./routes/subjectRoute"));
+
 
 app.use(express.static('public'));
 app.listen(process.env.listionport, () => {

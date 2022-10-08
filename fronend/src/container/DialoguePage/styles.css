@@ -1,0 +1,63 @@
+.btninsert{
+    width: 'auto';
+    height: 30px;
+    background-color: aquamarine;
+    border-radius: 5px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    text-align: center;
+    align-items: center;
+    line-height: 30px;
+    cursor: pointer;
+}
+.btnback{
+    width: 600px;
+    height: 30px;
+    background-color: aquamarine;
+    border-radius: 5px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    text-align: center;
+    align-items: center;
+    line-height: 30px;
+    cursor: pointer;
+}
+.btnback:hover{
+    background-color: greenyellow;
+}
+.btninsert:hover{
+    background-color: greenyellow;
+}
+.fontbase{
+    font-size: medium;
+}
+.flexrow{
+    display: flex;
+    flex-direction: row;
+}
+.btnshow{
+    background-color: aquamarine;
+    height: 30px;
+    text-align: center;
+    line-height: 30px;
+}
+.btnshow:hover{
+    background-color: greenyellow;
+}
+.subject_center{
+    padding: 10px;
+}
+.content_subject{
+    height: 100px;
+    background-color: aquamarine;
+    border-radius: 10px;
+    justify-content: center;
+    align-items: center;
+    font-size: x-large;
+    display: flex;
+    text-align: center;
+}
+.content_subject:hover{
+    background-color: greenyellow;
+    cursor: pointer;
+}

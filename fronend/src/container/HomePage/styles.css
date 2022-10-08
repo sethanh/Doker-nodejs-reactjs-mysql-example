@@ -1,0 +1,30 @@
+.btninsert{
+    width: 'auto';
+    height: 30px;
+    background-color: aquamarine;
+    border-radius: 5px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    text-align: center;
+    align-items: center;
+    line-height: 30px;
+}
+.btninsert:hover{
+    background-color: greenyellow;
+}
+.fontbase{
+    font-size: medium;
+}
+.flexrow{
+    display: flex;
+    flex-direction: row;
+}
+.btnshow{
+    background-color: aquamarine;
+    height: 30px;
+    text-align: center;
+    line-height: 30px;
+}
+.btnshow:hover{
+    background-color: greenyellow;
+}

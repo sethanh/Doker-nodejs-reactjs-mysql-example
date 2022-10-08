@@ -11,7 +11,7 @@ services:
     restart: always
     cap_add:
       - SYS_NICE
-    command: --default-authentication-plugin=mysql_native_password --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+    command: --default-authentication-plugin=mysql_native_password --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci --sql_mode=""
     volumes:
       - ./server/sql:/var/lib/mysql
     ports:
