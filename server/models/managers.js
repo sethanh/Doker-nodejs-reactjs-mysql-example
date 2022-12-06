@@ -15,7 +15,7 @@ module.exports = (sequelize, DataTypes) => {
   }
   Managers.init({
     status: DataTypes.INTEGER,
-    created_by: DataTypes.INTEGER,
+    // created_by: DataTypes.INTEGER,
     id_user: DataTypes.INTEGER,
   }, {
     sequelize,

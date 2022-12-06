@@ -12,6 +12,48 @@ let index = async (req, res) => {
 
   let data = await users.findOne({
     where: { id },
+    // include: [
+    //   {
+    //     model: staffs,
+    //     include: [
+    //       {
+    //         model: shops,
+    //         include: [
+    //           {
+    //             model: products,
+    //             include: [
+    //               {
+    //                 where: { status: 0 },
+    //                 model: request_details,
+    //               }
+    //             ]
+    //           }
+    //         ]
+    //       }
+    //     ]
+    //   },
+    //   {
+    //     model: managers,
+    //     include: [
+    //       {
+    //         model: shops,
+    //         include: [
+    //           {
+    //             model: products,
+    //             include: [
+    //               {
+    //                 model: request_details
+    //               }
+    //             ]
+    //           }
+    //         ]
+    //       }
+    //     ]
+    //   }
+    // ]
+  });
+
+  data = data.findOne({
     include: [
       {
         model: staffs,
@@ -51,35 +93,33 @@ let index = async (req, res) => {
         ]
       }
     ]
-  });
-  const { Staffs } = data;
-  const { Shop } = Staffs[0];
-  const { Products } = Shop;
-  const lengthProducts = Products.length;
-  let queryRequest = []
-  for (let i = 0; i < lengthProducts; i++) {
-    queryRequest.push(Products[i].id)
-  }
-
-  let dataRequest = await invoices_requests.findAll({
-    include: [
-      {
-        where: { id_product: queryRequest },
-        model: request_details,
-        include: [{
-          model: products
-        }]
-      }
-    ]
   })
 
   sendOk({
     res,
     status: 200,
-    data: dataRequest,
+    data: data,
     error: false
   })
 }
+
+
+let signInByToken = async (req, res, next) => {
+  const { user } = req;
+  if (user) {
+    sendOk({
+      res: res,
+      message: 'success',
+      status: 200,
+      data: user,
+    })
+  }
+  else return sendErr({
+    res: res,
+    message: 'Không tồn tại tài khoản',
+    status: 500
+  })
+};
 
 
 let signIn = async (req, res, next) => {
@@ -186,4 +226,4 @@ let destroy = async (req, res, next) => {
 
 
 
-module.exports = { signUp, signIn, index, show, updated, destroy };
+module.exports = { signUp, signIn, index, show, updated, destroy, signInByToken };
